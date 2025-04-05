@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:next_move_chess/Components/piece.dart';
-import 'package:next_move_chess/Components/square.dart';
-import 'package:next_move_chess/helper/helper_methods.dart';
-import 'package:next_move_chess/values/colors.dart';
+import 'package:next_move_chess/features/chess_board/values/colors.dart';
+
 
 import 'Components/dead_piece.dart';
+import 'Components/piece.dart';
+import 'Components/square.dart';
+import 'helper/helper_methods.dart';
 
 class GameBoard extends StatefulWidget {
   static const String routeName = 'gameBoard';
@@ -376,7 +377,6 @@ class _GameBoardState extends State<GameBoard> {
           candidateMoves.add([newRow, newCol]); //move
         }
         break;
-      default:
     }
     return candidateMoves;
   }

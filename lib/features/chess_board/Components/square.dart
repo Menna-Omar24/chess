@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:next_move_chess/Components/piece.dart';
-import 'package:next_move_chess/values/colors.dart';
+import 'package:next_move_chess/features/chess_board/Components/piece.dart';
+
+
+import '../values/colors.dart';
 
 class Square extends StatelessWidget {
   final bool isWhite;
