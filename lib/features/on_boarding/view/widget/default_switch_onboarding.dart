@@ -21,7 +21,7 @@ class DefaultSwitchOnboarding extends StatelessWidget {
         Text(
           labelSwitch,
           style: TextStyle(
-            fontSize: AppFontSize.titleStyleOnboarding20,
+            fontSize: AppFontSize.titleStyle20,
             color: AppColor.primary,
             fontFamily: 'JockeyOne',
           ),

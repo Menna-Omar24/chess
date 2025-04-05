@@ -6,7 +6,7 @@ import 'package:next_move_chess/core/theme/app_assets.dart';
 
 import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_size.dart';
-import '../../home/view/home_screen.dart';
+import '../../auth/view/login_view.dart';
 
 class OnboardingScreen extends StatelessWidget {
   static const String routeName = 'onboarding';
@@ -18,7 +18,7 @@ class OnboardingScreen extends StatelessWidget {
       titleWidget: Text(
         AppString.titleWidgetBoarding2,
         style: TextStyle(
-            fontSize: AppFontSize.titleStyleOnboarding20,
+            fontSize: AppFontSize.titleStyle20,
             fontWeight: FontWeight.bold,
             color: AppColor.primary),
       ),
@@ -33,7 +33,7 @@ class OnboardingScreen extends StatelessWidget {
       titleWidget: Text(
         AppString.titleWidgetBoarding3,
         style: TextStyle(
-            fontSize: AppFontSize.titleStyleOnboarding20,
+            fontSize: AppFontSize.titleStyle20,
             fontWeight: FontWeight.bold,
             color: AppColor.primary),
       ),
@@ -47,7 +47,7 @@ class OnboardingScreen extends StatelessWidget {
       titleWidget: Text(
         AppString.titleWidgetBoarding4,
         style: TextStyle(
-            fontSize: AppFontSize.titleStyleOnboarding20,
+            fontSize: AppFontSize.titleStyle20,
             fontWeight: FontWeight.bold,
             color: AppColor.primary),
       ),
@@ -62,8 +62,8 @@ class OnboardingScreen extends StatelessWidget {
   static PageDecoration getPageDecoration() {
     return PageDecoration(
       titleTextStyle: TextStyle(
-          fontSize: AppFontSize.titleOnBoarding22, fontWeight: FontWeight.bold),
-      bodyTextStyle: TextStyle(fontSize: AppFontSize.bodyStyleOnboarding16),
+          fontSize: AppFontSize.title22, fontWeight: FontWeight.bold),
+      bodyTextStyle: TextStyle(fontSize: AppFontSize.bodyStyle16),
       imagePadding: REdgeInsets.all(20),
     );
   }
@@ -79,7 +79,7 @@ class OnboardingScreen extends StatelessWidget {
             fontFamily: 'JockeyOne',
             color: AppColor.primary,
             fontWeight: FontWeight.bold,
-            fontSize: AppFontSize.appTitleOnboarding34,
+            fontSize: AppFontSize.appTitle34,
           ),
         ),
       ),
@@ -136,7 +136,7 @@ class OnboardingScreen extends StatelessWidget {
               ),
               onDone: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  MaterialPageRoute(builder: (context) => const LoginView()),
                 );
               },
             ),

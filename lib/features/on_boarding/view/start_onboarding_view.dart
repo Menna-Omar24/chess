@@ -6,6 +6,7 @@ import 'package:next_move_chess/features/on_boarding/view/widget/default_switch_
 
 import '../../../core/localization/app_string.dart';
 import '../../../core/theme/app_color.dart';
+import '../../auth/view/widget/custom_elevated_button.dart';
 import 'on_boarding_view.dart';
 
 class StartOnboardingView extends StatelessWidget {
@@ -23,13 +24,13 @@ class StartOnboardingView extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'JockeyOne',
             fontWeight: FontWeight.bold,
-            fontSize: AppFontSize.appTitleOnboarding34,
+            fontSize: AppFontSize.appTitle34,
             color: AppColor.primary,
           ),
         ),
       ),
       body: Padding(
-        padding:  REdgeInsets.all(16.0),
+        padding: REdgeInsets.all(16.0),
         child: Column(
           children: [
             Image.asset(
@@ -37,28 +38,28 @@ class StartOnboardingView extends StatelessWidget {
               height: AppSize.imageOnBoarding,
             ),
             SizedBox(
-              height: AppSize.sizeBoxOnBoarding28,
+              height: AppSize.sizeBox28,
             ),
             Text(
               AppString.titleWidgetBoarding1,
               style: TextStyle(
-                fontSize: AppFontSize.titleStyleOnboarding20,
+                fontSize: AppFontSize.titleStyle20,
                 fontWeight: FontWeight.bold,
                 color: AppColor.primary,
               ),
             ),
             SizedBox(
-              height: AppSize.sizeBoxOnBoarding20,
+              height: AppSize.sizeBox20,
             ),
             Text(
               textAlign: TextAlign.center,
               AppString.bodyBoarding1,
               style: TextStyle(
-                fontSize: AppFontSize.bodyStyleOnboarding16,
+                fontSize: AppFontSize.bodyStyle16,
               ),
             ),
             SizedBox(
-              height: AppSize.sizeBoxOnBoarding28,
+              height: AppSize.sizeBox28,
             ),
             const DefaultSwitchOnboarding(
               labelSwitch: "Language",
@@ -69,34 +70,18 @@ class StartOnboardingView extends StatelessWidget {
               iconSwitch: Icons.brightness_4,
             ),
             SizedBox(
-              height: AppSize.sizeBoxOnBoarding28,
+              height: AppSize.sizeBox28,
             ),
-            SizedBox(
-              width: double.infinity,
-              height: 50.h,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => OnboardingScreen(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColor.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
+            CustomElevatedButton(
+              buttonText: "Let's Start",
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => OnboardingScreen(),
                   ),
-                ),
-                child: Text(
-                  "Let's Start",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: AppFontSize.titleStyleOnboarding20,
-                  ),
-                ),
-              ),
-            )
+                );
+              },
+            ),
           ],
         ),
       ),
