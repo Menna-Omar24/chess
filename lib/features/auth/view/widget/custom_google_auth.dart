@@ -7,12 +7,19 @@ import '../../../../core/theme/app_color.dart';
 import '../../../../core/theme/app_size.dart';
 
 class CustomGoogleAuth extends StatelessWidget {
-  const CustomGoogleAuth({super.key});
+  final void Function() onTap;
+
+  const CustomGoogleAuth({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        onTap();
+      },
       child: Container(
         width: double.infinity,
         height: 50.h,

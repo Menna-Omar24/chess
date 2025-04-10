@@ -60,9 +60,12 @@ class _SmartChessState extends State<SmartChess> {
           ForgetPasswordView.routeName: (context) => const ForgetPasswordView(),
           GameBoard.routeName: (context) => const GameBoard(),
         },
-        initialRoute: FirebaseAuth.instance.currentUser == null
-            ? SplashView.routeName
-            : HomeScreen.routeName,
+        initialRoute: (
+          FirebaseAuth.instance.currentUser != null &&
+              FirebaseAuth.instance.currentUser!.emailVerified
+        )
+            ? HomeScreen.routeName
+            : LoginView.routeName,
       ),
     );
   }
