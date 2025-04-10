@@ -31,58 +31,60 @@ class StartOnboardingView extends StatelessWidget {
       ),
       body: Padding(
         padding: REdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Image.asset(
-              AppAssets.imageOnBoarding1,
-              height: AppSize.imageOnBoarding,
-            ),
-            SizedBox(
-              height: AppSize.sizeBox28,
-            ),
-            Text(
-              AppString.titleWidgetBoarding1,
-              style: TextStyle(
-                fontSize: AppFontSize.titleStyle20,
-                fontWeight: FontWeight.bold,
-                color: AppColor.primary,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset(
+                AppAssets.imageOnBoarding1,
+                height: AppSize.imageOnBoarding,
               ),
-            ),
-            SizedBox(
-              height: AppSize.sizeBox20,
-            ),
-            Text(
-              textAlign: TextAlign.center,
-              AppString.bodyBoarding1,
-              style: TextStyle(
-                fontSize: AppFontSize.bodyStyle16,
+              SizedBox(
+                height: AppSize.sizeBox28,
               ),
-            ),
-            SizedBox(
-              height: AppSize.sizeBox28,
-            ),
-            const DefaultSwitchOnboarding(
-              labelSwitch: "Language",
-              iconSwitch: Icons.language,
-            ),
-            const DefaultSwitchOnboarding(
-              labelSwitch: "Theme",
-              iconSwitch: Icons.brightness_4,
-            ),
-            SizedBox(
-              height: AppSize.sizeBox28,
-            ),
-            CustomElevatedButton(
-              buttonText: "Let's Start",
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => OnboardingScreen(),
-                  ),
-                );
-              },
-            ),
-          ],
+              Text(
+                AppString.titleWidgetBoarding1,
+                style: TextStyle(
+                  fontSize: AppFontSize.titleStyle20,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.primary,
+                ),
+              ),
+              SizedBox(
+                height: AppSize.sizeBox20,
+              ),
+              Text(
+                textAlign: TextAlign.center,
+                AppString.bodyBoarding1,
+                style: TextStyle(
+                  fontSize: AppFontSize.bodyStyle16,
+                ),
+              ),
+              SizedBox(
+                height: AppSize.sizeBox28,
+              ),
+              const DefaultSwitchOnboarding(
+                labelSwitch: "Language",
+                iconSwitch: Icons.language,
+              ),
+              const DefaultSwitchOnboarding(
+                labelSwitch: "Theme",
+                iconSwitch: Icons.brightness_4,
+              ),
+              SizedBox(
+                height: AppSize.sizeBox28,
+              ),
+              CustomElevatedButton(
+                buttonText: "Let's Start",
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => OnboardingScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
