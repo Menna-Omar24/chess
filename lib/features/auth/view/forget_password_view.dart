@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:next_move_chess/features/auth/view/widget/custom_elevated_button.dart';
+import 'package:next_move_chess/features/auth/view/widget/custom_text_form_field.dart';
 
 import '../../../core/localization/app_string.dart';
 import '../../../core/theme/app_assets.dart';
@@ -30,6 +31,13 @@ class ForgetPasswordView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.asset(AppAssets.password),
+            const CustomTextFormField(
+              labelText: 'Email',
+              prefixIcon: Icons.email,
+            ),
+            SizedBox(
+              height: AppSize.sizeBox20,
+            ),
             CustomElevatedButton(
               buttonText: 'Reset Password',
               onPressed: () {},

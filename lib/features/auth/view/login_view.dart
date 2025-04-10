@@ -79,7 +79,9 @@ class LoginView extends StatelessWidget {
                 height: AppSize.sizeBox16,
               ),
               CustomElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed('gameBoard');
+                },
                 buttonText: 'Login',
               ),
               SizedBox(
