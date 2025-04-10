@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:next_move_chess/core/localization/app_string.dart';
 import 'package:next_move_chess/features/auth/view/widget/custom_elevated_button.dart';
 import 'package:next_move_chess/features/auth/view/widget/custom_google_auth.dart';
@@ -24,6 +25,28 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController emailAddressLogin = TextEditingController();
   TextEditingController passwordLogin = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  Future signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) {
+      return;
+    }
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,8 +151,20 @@ class _LoginViewState extends State<LoginView> {
                             desc: 'You have successfully logged in!',
                             btnOkOnPress: () {
                               // Navigate to the home screen after the user presses "OK"
-                              Navigator.of(context)
-                                  .pushReplacementNamed('home');
+                              if (credential.user!.emailVerified) {
+                                Navigator.of(context)
+                                    .pushReplacementNamed('home');
+                              } else {
+                                FirebaseAuth.instance.currentUser!
+                                    .sendEmailVerification();
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.error,
+                                  animType: AnimType.rightSlide,
+                                  title: 'Error',
+                                  desc: 'should be email verified',
+                                ).show();
+                              }
                             },
                           ).show();
 
@@ -227,7 +262,11 @@ class _LoginViewState extends State<LoginView> {
                   SizedBox(
                     height: AppSize.sizeBox24,
                   ),
-                  CustomGoogleAuth(),
+                  CustomGoogleAuth(
+                    onTap: () {
+                      signInWithGoogle();
+                    },
+                  ),
                 ],
               ),
             ),

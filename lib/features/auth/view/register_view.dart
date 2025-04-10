@@ -136,7 +136,9 @@ class _RegisterViewState extends State<RegisterView> {
                             email: emailAddress.text,
                             password: password.text,
                           );
-                          Navigator.of(context).pushReplacementNamed('home');
+                          FirebaseAuth.instance.currentUser!
+                              .sendEmailVerification();
+                          Navigator.of(context).pushReplacementNamed('login');
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'weak-password') {
                             print('The password provided is too weak.');
