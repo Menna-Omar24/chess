@@ -8,6 +8,8 @@ class CustomTextFormField extends StatefulWidget {
   final IconData prefixIcon;
   final bool suffixIcon;
   final bool obscureText;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   const CustomTextFormField({
     super.key,
@@ -15,6 +17,8 @@ class CustomTextFormField extends StatefulWidget {
     required this.prefixIcon,
     this.obscureText = false,
     this.suffixIcon = false,
+    required this.controller,
+    required this.validator,
   });
 
   @override
@@ -39,6 +43,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: widget.validator,
+      controller: widget.controller,
       obscureText: isObscure,
       decoration: InputDecoration(
         prefixIcon: Icon(
@@ -47,12 +53,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         suffixIcon: widget.suffixIcon
             ? InkWell(
-          onTap: toggleVisibility,
-          child: Icon(
-            isObscure ? Icons.visibility_off : Icons.visibility,
-            color: AppColor.primary,
-          ),
-        )
+                onTap: toggleVisibility,
+                child: Icon(
+                  isObscure ? Icons.visibility_off : Icons.visibility,
+                  color: AppColor.primary,
+                ),
+              )
             : null,
         labelText: widget.labelText,
         border: OutlineInputBorder(

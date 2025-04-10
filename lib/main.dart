@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,13 +10,36 @@ import 'features/home/view/home_screen.dart';
 import 'features/on_boarding/view/on_boarding_view.dart';
 import 'features/on_boarding/view/start_onboarding_view.dart';
 import 'features/splash/splash_view.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const SmartChess());
 }
 
-class SmartChess extends StatelessWidget {
+class SmartChess extends StatefulWidget {
   const SmartChess({super.key});
+
+  @override
+  State<SmartChess> createState() => _SmartChessState();
+}
+
+class _SmartChessState extends State<SmartChess> {
+  @override
+  void initState() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('==========================User is currently signed out!');
+      } else {
+        print('==========================User is signed in!');
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +57,12 @@ class SmartChess extends StatelessWidget {
           HomeScreen.routeName: (context) => const HomeScreen(),
           LoginView.routeName: (context) => const LoginView(),
           RegisterView.routeName: (context) => const RegisterView(),
-          ForgetPasswordView.routeName: (context) =>
-              const ForgetPasswordView(),
+          ForgetPasswordView.routeName: (context) => const ForgetPasswordView(),
           GameBoard.routeName: (context) => const GameBoard(),
         },
-        initialRoute: SplashView.routeName,
+        initialRoute: FirebaseAuth.instance.currentUser == null
+            ? SplashView.routeName
+            : HomeScreen.routeName,
       ),
     );
   }
