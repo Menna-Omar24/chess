@@ -63,18 +63,18 @@ class StartOnboardingView extends StatelessWidget {
                 height: AppSize.sizeBox28,
               ),
               const DefaultSwitchOnboarding(
-                labelSwitch: "Language",
+                labelSwitch: AppString.labelLanguage,
                 iconSwitch: Icons.language,
               ),
               const DefaultSwitchOnboarding(
-                labelSwitch: "Theme",
+                labelSwitch: AppString.labelTheme,
                 iconSwitch: Icons.brightness_4,
               ),
               SizedBox(
                 height: AppSize.sizeBox28,
               ),
               CustomElevatedButton(
-                buttonText: "Let's Start",
+                buttonText:AppString.buttonStart,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(

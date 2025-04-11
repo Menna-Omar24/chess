@@ -65,7 +65,7 @@ class _SmartChessState extends State<SmartChess> {
               FirebaseAuth.instance.currentUser!.emailVerified
         )
             ? HomeScreen.routeName
-            : LoginView.routeName,
+            : SplashView.routeName,
       ),
     );
   }

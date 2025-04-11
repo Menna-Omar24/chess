@@ -1,3 +1,5 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:next_move_chess/features/auth/view/widget/custom_elevated_button.dart';
 import 'package:next_move_chess/features/auth/view/widget/custom_text_form_field.dart';
@@ -45,7 +47,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 CustomTextFormField(
                   validator: (value) {
                     if (value!.isEmpty || !value.contains('@')) {
-                      return value.isEmpty ? "Can't be empty" : 'invalid email';
+                      return value.isEmpty ? AppString.empty : AppString.invalidEmail;
                     }
                   },
                   controller: emailAddress,
@@ -56,9 +58,28 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                   height: AppSize.sizeBox20,
                 ),
                 CustomElevatedButton(
-                  buttonText: 'Reset Password',
-                  onPressed: () {
-
+                  buttonText: AppString.resetPassword,
+                  onPressed: () async {
+                    try {
+                      await FirebaseAuth.instance.sendPasswordResetEmail(
+                        email: emailAddress.text,
+                      );
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.success,
+                        animType: AnimType.rightSlide,
+                        title: AppString.success,
+                        desc: AppString.successResetPassword,
+                      ).show();
+                    } catch (e) {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: AppString.error,
+                        desc: AppString.sureEmailCorrect,
+                      ).show();
+                    }
                   },
                 ),
               ],

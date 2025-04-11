@@ -67,12 +67,12 @@ class _RegisterViewState extends State<RegisterView> {
                     validator: (value) {
                       if (value!.isEmpty || value.length < 3) {
                         return value.isEmpty
-                            ? "Can't be empty"
-                            : 'Name must be at least 3 characters';
+                            ? AppString.empty
+                            : AppString.desName;
                       }
                     },
                     controller: name,
-                    labelText: 'Name',
+                    labelText: AppString.labelName,
                     prefixIcon: Icons.person,
                   ),
                   SizedBox(
@@ -82,12 +82,12 @@ class _RegisterViewState extends State<RegisterView> {
                     validator: (value) {
                       if (value!.isEmpty || !value.contains('@')) {
                         return value.isEmpty
-                            ? "Can't be empty"
-                            : 'Invalid email';
+                            ? AppString.empty
+                            : AppString.invalidEmail;
                       }
                     },
                     controller: emailAddress,
-                    labelText: 'Email',
+                    labelText: AppString.labelEmail,
                     prefixIcon: Icons.email,
                   ),
                   SizedBox(
@@ -97,12 +97,12 @@ class _RegisterViewState extends State<RegisterView> {
                     validator: (value) {
                       if (value!.isEmpty || value.length < 6) {
                         return value.isEmpty
-                            ? "Can't be empty"
-                            : 'Password must be at least 6 characters';
+                            ? AppString.empty
+                            : AppString.desPasswordLeast;
                       }
                     },
                     controller: password,
-                    labelText: 'Password',
+                    labelText: AppString.labelPassword,
                     prefixIcon: Icons.lock,
                     suffixIcon: true,
                     obscureText: true,
@@ -114,12 +114,12 @@ class _RegisterViewState extends State<RegisterView> {
                     validator: (value) {
                       if (value!.isEmpty || value != password.text) {
                         return value.isEmpty
-                            ? "Can't be empty"
-                            : 'Passwords do not mat';
+                            ? AppString.empty
+                            : AppString.passwordsDoNotMatch;
                       }
                     },
                     controller: confirmPassword,
-                    labelText: 'Confirm Password',
+                    labelText: AppString.confirmPassword,
                     prefixIcon: Icons.lock,
                     suffixIcon: true,
                     obscureText: true,
@@ -140,24 +140,24 @@ class _RegisterViewState extends State<RegisterView> {
                               .sendEmailVerification();
                           Navigator.of(context).pushReplacementNamed('login');
                         } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            print('The password provided is too weak.');
+                          if (e.code == AppString.weakPassword) {
+                            print(AppString.weakPassword);
                             AwesomeDialog(
                               context: context,
                               dialogType: DialogType.error,
                               animType: AnimType.rightSlide,
-                              title: 'Error',
-                              desc: 'The password provided is too weak.',
+                              title: AppString.error,
+                              desc: AppString.desWeakPassword,
                             ).show();
-                          } else if (e.code == 'email-already-in-use') {
-                            print('The account already exists for that email.');
+                          } else if (e.code == AppString.emailAlreadyInUse) {
+                            print(AppString.desEmailAlreadyInUse);
                             AwesomeDialog(
                               context: context,
                               dialogType: DialogType.error,
                               animType: AnimType.rightSlide,
-                              title: 'Error',
+                              title: AppString.error,
                               desc:
-                                  'The account already exists for that email.',
+                                  AppString.desEmailAlreadyInUse,
                             ).show();
                           }
                         } catch (e) {

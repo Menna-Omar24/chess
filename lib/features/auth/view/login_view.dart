@@ -27,25 +27,39 @@ class _LoginViewState extends State<LoginView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Future signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    if (googleUser == null) {
-      return;
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        print('Google sign-in aborted');
+        return;  // User canceled the sign-in process
+      }
+
+      // Obtain the authentication details
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Create a new credential for Firebase authentication
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in with Firebase using the Google credentials
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Navigate to the home screen
+      Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+    } catch (e) {
+      print('Error during Google Sign-In: $e');
+      // Show an error dialog
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.rightSlide,
+        title: AppString.error,
+        desc: AppString.desErrorAgain,
+      ).show();
     }
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    await FirebaseAuth.instance.signInWithCredential(credential);
-    Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
   }
 
   @override
@@ -81,12 +95,12 @@ class _LoginViewState extends State<LoginView> {
                     validator: (value) {
                       if (value!.isEmpty || !value.contains('@')) {
                         return value.isEmpty
-                            ? "Can't be empty"
-                            : 'Invalid email';
+                            ? AppString.empty
+                            : AppString.invalidEmail;
                       }
                     },
                     controller: emailAddressLogin,
-                    labelText: 'Email',
+                    labelText: AppString.labelEmail,
                     prefixIcon: Icons.email,
                   ),
                   SizedBox(
@@ -96,12 +110,12 @@ class _LoginViewState extends State<LoginView> {
                     validator: (value) {
                       if (value!.isEmpty || value.length < 6) {
                         return value.isEmpty
-                            ? "Can't be empty"
-                            : 'Password must be at least 6 characters';
+                            ? AppString.empty
+                            : AppString.desPasswordLeast;
                       }
                     },
                     controller: passwordLogin,
-                    labelText: 'Password',
+                    labelText: AppString.labelPassword,
                     prefixIcon: Icons.lock,
                     suffixIcon: true,
                     obscureText: true,
@@ -147,8 +161,8 @@ class _LoginViewState extends State<LoginView> {
                             context: context,
                             dialogType: DialogType.success,
                             animType: AnimType.rightSlide,
-                            title: 'Success',
-                            desc: 'You have successfully logged in!',
+                            title: AppString.success,
+                            desc: AppString.decSuccess,
                             btnOkOnPress: () {
                               // Navigate to the home screen after the user presses "OK"
                               if (credential.user!.emailVerified) {
@@ -161,35 +175,26 @@ class _LoginViewState extends State<LoginView> {
                                   context: context,
                                   dialogType: DialogType.error,
                                   animType: AnimType.rightSlide,
-                                  title: 'Error',
-                                  desc: 'should be email verified',
+                                  title: AppString.error,
+                                  desc: AppString.decErrorVerified,
                                 ).show();
                               }
                             },
                           ).show();
-
-                          // Alternatively, use a Timer for automatic navigation
-                          /*
-                        Timer(Duration(seconds: 2), () {
-                          Navigator.of(context).pushReplacementNamed('home');
-                        });
-                        */
                         } on FirebaseAuthException catch (e) {
-                          // Debugging: Print the error code to the console
                           print('FirebaseAuthException caught: ${e.code}');
-
-                          // Use Builder to ensure a valid context
+                          // Show error dialog for Firebase sign-in exceptions
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             AwesomeDialog(
                               context: context,
                               dialogType: DialogType.error,
                               animType: AnimType.rightSlide,
-                              title: 'Error',
-                              desc: e.code == 'user-not-found'
-                                  ? 'No user found for that email.'
-                                  : e.code == 'wrong-password'
-                                      ? 'Wrong password provided for that user.'
-                                      : 'An unexpected error occurred.',
+                              title: AppString.error,
+                              desc: e.code == AppString.userNotFound
+                                  ? AppString.desUserNotFound
+                                  : e.code == AppString.wrongPassword
+                                  ? AppString.desWrongPassword
+                                  : AppString.desErrorUnexpected,
                             ).show();
                           });
                         }
@@ -197,7 +202,7 @@ class _LoginViewState extends State<LoginView> {
                         print('Form is not valid');
                       }
                     },
-                    buttonText: 'Login',
+                    buttonText:AppString.login,
                   ),
                   SizedBox(
                     height: AppSize.sizeBox24,
