@@ -43,6 +43,8 @@ dependencies:
   firebase_auth: ^5.5.2
   awesome_dialog: ^3.2.1
   google_sign_in: ^6.3.0
+  easy_localization: ^3.0.7+1
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
